@@ -71,11 +71,11 @@ contract MyOFT is OFT, AccessControl, RateLimiter {
     }
 
     // mint-burn
-    function mint(address to, uint256 amount) external virtual onlyRole(MINTER_ROLE) {
+    function mint(address to, uint256 amount) external onlyRole(MINTER_ROLE) {
         _mint(to, amount);
     }
 
-    function burn(address from, uint256 amount) external virtual onlyRole(MINTER_ROLE) {
+    function burn(address from, uint256 amount) external onlyRole(MINTER_ROLE) {
         _burn(from, amount);
     }
 

@@ -11,8 +11,4 @@ contract MyOFTMock is MyOFT {
         address _lzEndpoint,
         address _delegate
     ) MyOFT(_name, _symbol, _lzEndpoint, _delegate) {}
-
-    function mint(address _to, uint256 _amount) override public {
-        _mint(_to, _amount);
-    }
 }

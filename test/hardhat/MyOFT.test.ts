@@ -31,6 +31,7 @@ describe('MyOFT Test', function () {
         const signers = await ethers.getSigners()
 
         ;[ownerA, ownerB, endpointOwner] = signers
+        console.log('[ownerA, ownerB, endpointOwner] = ', ownerA.address, ownerB.address, endpointOwner.address)
 
         // The EndpointV2Mock contract comes from @layerzerolabs/test-devtools-evm-hardhat package
         // and its artifacts are connected as external artifacts to this project
@@ -52,6 +53,13 @@ describe('MyOFT Test', function () {
         // Deploying two instances of MyOFT contract with different identifiers and linking them to the mock LZEndpoint
         myOFTA = await MyOFT.deploy('aOFT', 'aOFT', mockEndpointV2A.address, ownerA.address)
         myOFTB = await MyOFT.deploy('bOFT', 'bOFT', mockEndpointV2B.address, ownerB.address)
+
+        console.log('myOFTA.owner:', await myOFTA.owner())
+        const MINTER_ROLE = myOFTA.MINTER_ROLE()
+        await myOFTA.connect(ownerA).grantRole(MINTER_ROLE, ownerA.address)
+        await myOFTA.connect(ownerA).grantRole(MINTER_ROLE, ownerB.address)
+        await myOFTB.connect(ownerA).grantRole(MINTER_ROLE, ownerA.address)
+        await myOFTB.connect(ownerA).grantRole(MINTER_ROLE, ownerB.address)
 
         // Setting destination endpoints in the LZEndpoint mock for each MyOFT instance
         await mockEndpointV2A.setDestLzEndpoint(myOFTB.address, mockEndpointV2B.address)
