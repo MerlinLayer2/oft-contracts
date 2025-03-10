@@ -31,49 +31,30 @@ contract MyOFTAdapter is OFTAdapter, AccessControl, RateLimiter {
         address _delegate
     ) OFTAdapter(_token, _lzEndpoint, _delegate) Ownable(_delegate) {}
 
-//    // check: blacklist and pause
-//    function _update(address from, address to, uint256 value) override(ERC20) internal whenNotPaused {
-//        require(!isBlackListed[from], "from is in blackList");
-//        ERC20._update(from, to, value);
-//    }
-
     function setBlackList(address account, bool state) external onlyOwner {
         isBlackListed[account] = state;
         emit SetBlackList(account, state);
     }
 
-//    /**
-//     * @dev Checks and updates the rate limit before initiating a token transfer.
-//     * @param _amountLD The amount of tokens to be transferred.
-//     * @param _minAmountLD The minimum amount of tokens expected to be received.
-//     * @param _dstEid The destination endpoint identifier.
-//     * @return amountSentLD The actual amount of tokens sent.
-//     * @return amountReceivedLD The actual amount of tokens received.
-//     */
-//    function _debit(
-//        uint256 _amountLD,
-//        uint256 _minAmountLD,
-//        uint32 _dstEid
-//    ) internal returns (uint256 amountSentLD, uint256 amountReceivedLD) {
-//        _outflow(_dstEid, _amountLD);
-//        return super._debit(msg.sender, _amountLD, _minAmountLD, _dstEid);
-//    }
-
-    function _send(
-        SendParam calldata _sendParam,
-        MessagingFee calldata _fee,
-        address _refundAddress
-    ) internal virtual override whenNotPaused returns (MessagingReceipt memory msgReceipt, OFTReceipt memory oftReceipt)  {
-        super._send(_sendParam, _fee, _refundAddress);
+    // cross out: add whenNotPaused and rateLimit
+    function _debit(
+        address _from,
+        uint256 _amountLD,
+        uint256 _minAmountLD,
+        uint32 _dstEid
+    ) internal override(OFTAdapter) whenNotPaused returns (uint256 amountSentLD, uint256 amountReceivedLD) {
+        //check rateLimit
+        _outflow(_dstEid, _amountLD);
+        (amountSentLD, amountReceivedLD) = super._debit(_from, _amountLD, _minAmountLD, _dstEid);
     }
 
-    // 重写 _creditTo 函数，添加暂停检查
+    // cross in: add whenNotPaused
     function _credit(
         address _to,
         uint256 _amountLD,
-        uint32 _srcEid/*_srcEid*/
-    ) internal override whenNotPaused returns (uint256) {
-        return super._credit(_to, _amountLD, _srcEid);
+        uint32 _srcEid /*_srcEid*/
+    ) internal virtual override(OFTAdapter) whenNotPaused returns (uint256 amountReceivedLD) {
+        (amountReceivedLD) = super._credit(_to, _amountLD, _srcEid);
     }
 
     /**

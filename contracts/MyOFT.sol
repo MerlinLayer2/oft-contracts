@@ -36,7 +36,7 @@ contract MyOFT is OFT, AccessControl, RateLimiter {
     }
 
     // check: blacklist and pause
-    function _update(address from, address to, uint256 value) override(ERC20) internal virtual override whenNotPaused {
+    function _update(address from, address to, uint256 value) override(ERC20) internal virtual whenNotPaused {
         require(!isBlackListed[from], "from is in blackList");
         ERC20._update(from, to, value);
     }
@@ -46,29 +46,15 @@ contract MyOFT is OFT, AccessControl, RateLimiter {
         emit SetBlackList(account, state);
     }
 
-//    /**
-//     * @dev Checks and updates the rate limit before initiating a token transfer.
-//     * @param _amountLD The amount of tokens to be transferred.
-//     * @param _minAmountLD The minimum amount of tokens expected to be received.
-//     * @param _dstEid The destination endpoint identifier.
-//     * @return amountSentLD The actual amount of tokens sent.
-//     * @return amountReceivedLD The actual amount of tokens received.
-//     */
-//    function _debit(
-//        uint256 _amountLD,
-//        uint256 _minAmountLD,
-//        uint32 _dstEid
-//    ) internal returns (uint256 amountSentLD, uint256 amountReceivedLD) {
-//        _outflow(_dstEid, _amountLD);
-//        return super._debit(msg.sender, _amountLD, _minAmountLD, _dstEid);
-//    }
-
-    function _send(
-        SendParam calldata _sendParam,
-        MessagingFee calldata _fee,
-        address _refundAddress
-    ) internal virtual override whenNotPaused returns (MessagingReceipt memory msgReceipt, OFTReceipt memory oftReceipt)  {
-        return super._send(_sendParam, _fee, _refundAddress);
+    // check: rateLimit + pause
+    function _debit(
+        address _from,
+        uint256 _amountLD,
+        uint256 _minAmountLD,
+        uint32 _dstEid
+    ) internal override(OFT) returns (uint256 amountSentLD, uint256 amountReceivedLD) {
+        _outflow(_dstEid, _amountLD);
+        (amountSentLD, amountReceivedLD) = super._debit(_from, _amountLD, _minAmountLD, _dstEid);
     }
 
     /**
