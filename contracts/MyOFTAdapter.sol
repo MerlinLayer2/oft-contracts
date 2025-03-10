@@ -3,14 +3,13 @@ pragma solidity ^0.8.22;
 
 import { ERC20 } from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
-import { OFT } from "@layerzerolabs/oft-evm/contracts/OFT.sol";
+import { OFTAdapter } from "@layerzerolabs/oft-evm/contracts/OFTAdapter.sol";
 import { RateLimiter } from "@layerzerolabs/oapp-evm/contracts/oapp/utils/RateLimiter.sol";
 import { IOFT, SendParam, OFTLimit, OFTReceipt, OFTFeeDetail, MessagingReceipt, MessagingFee } from "@layerzerolabs/oft-evm/contracts/interfaces/IOFT.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 
-contract MyOFT is OFT, AccessControl, RateLimiter {
+contract MyOFTAdapter is OFTAdapter, AccessControl, RateLimiter {
     string public constant version = "1.0.0";
-    bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     bytes32 public constant PAUSE_ROLE = keccak256("PAUSE_ROLE");
 
     mapping(address => bool) public isBlackListed;
@@ -27,19 +26,16 @@ contract MyOFT is OFT, AccessControl, RateLimiter {
     );
 
     constructor(
-        string memory _name,
-        string memory _symbol,
+        address _token,
         address _lzEndpoint,
         address _delegate
-    ) OFT(_name, _symbol, _lzEndpoint, _delegate) Ownable(_delegate) {
-        _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
-    }
+    ) OFTAdapter(_token, _lzEndpoint, _delegate) Ownable(_delegate) {}
 
-    // check: blacklist and pause
-    function _update(address from, address to, uint256 value) override(ERC20) internal virtual override whenNotPaused {
-        require(!isBlackListed[from], "from is in blackList");
-        ERC20._update(from, to, value);
-    }
+//    // check: blacklist and pause
+//    function _update(address from, address to, uint256 value) override(ERC20) internal whenNotPaused {
+//        require(!isBlackListed[from], "from is in blackList");
+//        ERC20._update(from, to, value);
+//    }
 
     function setBlackList(address account, bool state) external onlyOwner {
         isBlackListed[account] = state;
@@ -68,7 +64,16 @@ contract MyOFT is OFT, AccessControl, RateLimiter {
         MessagingFee calldata _fee,
         address _refundAddress
     ) internal virtual override whenNotPaused returns (MessagingReceipt memory msgReceipt, OFTReceipt memory oftReceipt)  {
-        return super._send(_sendParam, _fee, _refundAddress);
+        super._send(_sendParam, _fee, _refundAddress);
+    }
+
+    // 重写 _creditTo 函数，添加暂停检查
+    function _credit(
+        address _to,
+        uint256 _amountLD,
+        uint32 _srcEid/*_srcEid*/
+    ) internal override whenNotPaused returns (uint256) {
+        return super._credit(_to, _amountLD, _srcEid);
     }
 
     /**
@@ -77,15 +82,6 @@ contract MyOFT is OFT, AccessControl, RateLimiter {
      */
     function setRateLimits(RateLimitConfig[] calldata _rateLimitConfigs) external onlyOwner {
         _setRateLimits(_rateLimitConfigs);
-    }
-
-    // mint-burn
-    function mint(address to, uint256 amount) external onlyRole(MINTER_ROLE) {
-        _mint(to, amount);
-    }
-
-    function burn(address from, uint256 amount) external onlyRole(MINTER_ROLE) {
-        _burn(from, amount);
     }
 
     // pause ...
