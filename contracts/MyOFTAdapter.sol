@@ -12,7 +12,6 @@ contract MyOFTAdapter is OFTAdapter, AccessControl, RateLimiter {
     string public constant version = "1.0.0";
     bytes32 public constant PAUSE_ROLE = keccak256("PAUSE_ROLE");
 
-    mapping(address => bool) public isBlackListed;
     bool public paused;
 
     event SetBlackList(
@@ -30,11 +29,6 @@ contract MyOFTAdapter is OFTAdapter, AccessControl, RateLimiter {
         address _lzEndpoint,
         address _delegate
     ) OFTAdapter(_token, _lzEndpoint, _delegate) Ownable(_delegate) {}
-
-    function setBlackList(address account, bool state) external onlyOwner {
-        isBlackListed[account] = state;
-        emit SetBlackList(account, state);
-    }
 
     // cross out: check rateLimit and pause
     function _debit(
