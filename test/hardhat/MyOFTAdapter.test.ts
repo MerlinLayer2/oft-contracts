@@ -77,6 +77,13 @@ describe('MyOFTAdapter Test', function () {
         const initialAmount = ethers.utils.parseEther('100')
         await token.mint(ownerA.address, initialAmount)
 
+        //rate limit
+        await myOFTAdapter.setRateLimits([{dstEid: eidB, limit: BigInt("10000000000000000000000"), window: 10}]) //1w ok
+        // await myOFTA.setRateLimits([{dstEid: eidB, limit: BigInt("10000000000000000000"), window: 10}]) //10 failed***
+        const amountCanBeSent = await myOFTAdapter.getAmountCanBeSent(eidB)
+        console.log('amountCanBeSent:', amountCanBeSent)
+
+
         // Defining the amount of tokens to send and constructing the parameters for the send operation
         const tokensToSend = ethers.utils.parseEther('1')
 
