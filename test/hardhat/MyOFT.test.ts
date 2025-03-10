@@ -57,14 +57,10 @@ describe('MyOFT Test', function () {
         console.log('...1 myOFTA.owner:', await myOFTA.owner())
         console.log('...1 myOFTB.owner:', await myOFTB.owner())
         const MINTER_ROLE = await myOFTA.MINTER_ROLE()
-        console.log('...1.1')
         await myOFTA.connect(ownerA).grantRole(MINTER_ROLE, ownerA.address)
-        console.log('...1.2')
-        const MINTER_ROLE_B = await myOFTB.MINTER_ROLE()
         console.log('[ownerA, ownerB, endpointOwner] = ', ownerA.address, ownerB.address, endpointOwner.address)
         console.log('[myOFTA, myOFTB] = ', myOFTA.address, myOFTB.address)
         console.log('...1.3')
-        console.log('...1.3.1')
         const DEFAULT_ADMIN_ROLE = await myOFTB.connect(ownerB).DEFAULT_ADMIN_ROLE()
         console.log(
             '[hasRoleA, hasRoleB] = ',
