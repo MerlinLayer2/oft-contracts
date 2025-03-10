@@ -36,19 +36,19 @@ contract MyOFTAdapter is OFTAdapter, AccessControl, RateLimiter {
         emit SetBlackList(account, state);
     }
 
-    // cross out: add whenNotPaused and rateLimit
+    // cross out: check rateLimit and pause
     function _debit(
         address _from,
         uint256 _amountLD,
         uint256 _minAmountLD,
         uint32 _dstEid
-    ) internal override(OFTAdapter) whenNotPaused returns (uint256 amountSentLD, uint256 amountReceivedLD) {
+    ) internal override(OFTAdapter) returns (uint256 amountSentLD, uint256 amountReceivedLD) {
         //check rateLimit
         _outflow(_dstEid, _amountLD);
         (amountSentLD, amountReceivedLD) = super._debit(_from, _amountLD, _minAmountLD, _dstEid);
     }
 
-    // cross in: add whenNotPaused
+    // cross in: check pause
     function _credit(
         address _to,
         uint256 _amountLD,

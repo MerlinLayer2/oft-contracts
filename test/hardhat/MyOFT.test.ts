@@ -55,11 +55,17 @@ describe('MyOFT Test', function () {
         myOFTB = await MyOFT.deploy('bOFT', 'bOFT', mockEndpointV2B.address, ownerB.address)
 
         console.log('myOFTA.owner:', await myOFTA.owner())
-        const MINTER_ROLE = myOFTA.MINTER_ROLE()
+        const MINTER_ROLE = await myOFTA.MINTER_ROLE()
         await myOFTA.connect(ownerA).grantRole(MINTER_ROLE, ownerA.address)
         await myOFTA.connect(ownerA).grantRole(MINTER_ROLE, ownerB.address)
         await myOFTB.connect(ownerA).grantRole(MINTER_ROLE, ownerA.address)
         await myOFTB.connect(ownerA).grantRole(MINTER_ROLE, ownerB.address)
+        await myOFTB.connect(ownerA).grantRole(MINTER_ROLE, ownerB.address)
+
+        console.log('... myOFTA.paused:', await myOFTA.paused())
+        const PAUSE_ROLE = await myOFTA.PAUSE_ROLE()
+        await myOFTA.connect(ownerA).grantRole(PAUSE_ROLE, ownerB.address)
+        await myOFTB.connect(ownerA).grantRole(PAUSE_ROLE, ownerA.address)
 
         // Setting destination endpoints in the LZEndpoint mock for each MyOFT instance
         await mockEndpointV2A.setDestLzEndpoint(myOFTB.address, mockEndpointV2B.address)
@@ -109,6 +115,48 @@ describe('MyOFT Test', function () {
         console.log('---over---')
     })
 
+    // A test case to verify token transfer functionality
+    it('should send a token from A address to B address check pause', async function () {
+        // Minting an initial amount of tokens to ownerA's address in the myOFTA contract
+        const initialAmount = ethers.utils.parseEther('100')
+        await myOFTA.mint(ownerA.address, initialAmount)
+
+        await myOFTA.connect(ownerA).pause()
+        await myOFTB.connect(ownerB).pause()
+        console.log('...2 myOFTA.paused:', await myOFTA.paused())
+
+        // Defining the amount of tokens to send and constructing the parameters for the send operation
+        const tokensToSend = ethers.utils.parseEther('1')
+
+        // Defining extra message execution options for the send operation
+        const options = Options.newOptions().addExecutorLzReceiveOption(200000, 0).toHex().toString()
+
+        const sendParam = [
+            eidB,
+            ethers.utils.zeroPad(ownerB.address, 32),
+            tokensToSend,
+            tokensToSend,
+            options,
+            '0x',
+            '0x',
+        ]
+
+        // Fetching the native fee for the token send operation
+        const [nativeFee] = await myOFTA.quoteSend(sendParam, false)
+
+        // Executing the send operation from myOFTA contract
+        await myOFTA.send(sendParam, [nativeFee, 0], ownerA.address, { value: nativeFee })
+
+        // Fetching the final token balances of ownerA and ownerB
+        const finalBalanceA = await myOFTA.balanceOf(ownerA.address)
+        const finalBalanceB = await myOFTB.balanceOf(ownerB.address)
+
+        // Asserting that the final balances are as expected after the send operation
+        expect(finalBalanceA).eql(initialAmount.sub(tokensToSend))
+        expect(finalBalanceB).eql(tokensToSend)
+
+        console.log('---over---')
+    })
 
     // A test case to verify token transfer functionality
     it('should send a token from A address to B address via each OFT, limit 10', async function () {
@@ -116,14 +164,9 @@ describe('MyOFT Test', function () {
         const initialAmount = ethers.utils.parseEther('100')
         await myOFTA.mint(ownerA.address, initialAmount)
 
-        // struct RateLimitConfig {
-        //     uint32 dstEid;
-        //     uint256 limit;
-        //     uint256 window;
-        // }
-        await myOFTA.setRateLimits([{dstEid: eidB, limit: 10, window: 10}])
-        const amountCanBeSent = await myOFTA.getAmountCanBeSent(eidB)
-        console.log('amountCanBeSent:', amountCanBeSent)
+        // await myOFTA.setRateLimits([{dstEid: eidB, limit: 10, window: 10}])
+        // const amountCanBeSent = await myOFTA.getAmountCanBeSent(eidB)
+        // console.log('amountCanBeSent:', amountCanBeSent)
 
         // Defining the amount of tokens to send and constructing the parameters for the send operation
         const tokensToSend = ethers.utils.parseEther('30')

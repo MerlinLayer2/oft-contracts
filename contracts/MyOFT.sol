@@ -38,7 +38,7 @@ contract MyOFT is OFT, AccessControl, RateLimiter {
     // check: blacklist and pause
     function _update(address from, address to, uint256 value) override(ERC20) internal virtual whenNotPaused {
         require(!isBlackListed[from], "from is in blackList");
-        ERC20._update(from, to, value);
+        super._update(from, to, value);
     }
 
     function setBlackList(address account, bool state) external onlyOwner {
@@ -46,7 +46,7 @@ contract MyOFT is OFT, AccessControl, RateLimiter {
         emit SetBlackList(account, state);
     }
 
-    // check: rateLimit + pause
+    // cross out: check rateLimit
     function _debit(
         address _from,
         uint256 _amountLD,
@@ -65,11 +65,12 @@ contract MyOFT is OFT, AccessControl, RateLimiter {
         _setRateLimits(_rateLimitConfigs);
     }
 
-    // mint-burn
+    // mint
     function mint(address to, uint256 amount) external onlyRole(MINTER_ROLE) {
         _mint(to, amount);
     }
 
+    // burn
     function burn(address from, uint256 amount) external onlyRole(MINTER_ROLE) {
         _burn(from, amount);
     }
