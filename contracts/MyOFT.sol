@@ -35,26 +35,24 @@ contract MyOFT is OFT, AccessControl, RateLimiter {
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
     }
 
-    // check: blacklist and pause
-    function _update(address from, address to, uint256 value) override(ERC20) internal virtual whenNotPaused {
-        require(!isBlackListed[from], "from is in blackList");
-        super._update(from, to, value);
-    }
-
-    function setBlackList(address account, bool state) external onlyOwner {
-        isBlackListed[account] = state;
-        emit SetBlackList(account, state);
-    }
-
-    // cross out: check rateLimit
+    // cross out: check rateLimit and pause
     function _debit(
         address _from,
         uint256 _amountLD,
         uint256 _minAmountLD,
         uint32 _dstEid
-    ) internal override(OFT) returns (uint256 amountSentLD, uint256 amountReceivedLD) {
+    ) internal override(OFT) whenNotPaused returns (uint256 amountSentLD, uint256 amountReceivedLD) {
         _outflow(_dstEid, _amountLD);
         (amountSentLD, amountReceivedLD) = super._debit(_from, _amountLD, _minAmountLD, _dstEid);
+    }
+
+    // cross in: check pause
+    function _credit(
+        address _to,
+        uint256 _amountLD,
+        uint32 _srcEid /*_srcEid*/
+    ) internal virtual override(OFT) whenNotPaused returns (uint256 amountReceivedLD) {
+        (amountReceivedLD) = super._credit(_to, _amountLD, _srcEid);
     }
 
     /**
