@@ -14,11 +14,6 @@ contract MyOFTAdapter is OFTAdapter, AccessControl, RateLimiter {
 
     bool public paused;
 
-    event SetBlackList(
-        address account,
-        bool state
-    );
-
     event PauseEvent(
         address pauseAdmin,
         bool paused
