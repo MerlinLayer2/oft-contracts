@@ -16,11 +16,6 @@ contract MyOFT is OFT, AccessControl, RateLimiter {
     mapping(address => bool) public isBlackListed;
     bool public paused;
 
-    event SetBlackList(
-        address account,
-        bool state
-    );
-
     event PauseEvent(
         address pauseAdmin,
         bool paused
