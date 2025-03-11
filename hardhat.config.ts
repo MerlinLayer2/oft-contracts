@@ -5,10 +5,14 @@
 // - Fill in the environment variables
 import 'dotenv/config'
 
+import '@openzeppelin/hardhat-upgrades'
 import 'hardhat-deploy'
+import '@nomiclabs/hardhat-waffle'
+import 'hardhat-deploy-ethers'
 import 'hardhat-contract-sizer'
 import '@nomiclabs/hardhat-ethers'
 import '@layerzerolabs/toolbox-hardhat'
+
 import { HardhatUserConfig, HttpNetworkAccountsUserConfig } from 'hardhat/types'
 
 import { EndpointId } from '@layerzerolabs/lz-definitions'
@@ -25,8 +29,8 @@ const PRIVATE_KEY = process.env.PRIVATE_KEY
 const accounts: HttpNetworkAccountsUserConfig | undefined = MNEMONIC
     ? { mnemonic: MNEMONIC }
     : PRIVATE_KEY
-      ? [PRIVATE_KEY]
-      : undefined
+        ? [PRIVATE_KEY]
+        : undefined
 
 if (accounts == null) {
     console.warn(
@@ -76,6 +80,12 @@ const config: HardhatUserConfig = {
         deployer: {
             default: 0, // wallet address of index[0], of the mnemonic in .env
         },
+    },
+    layerZero: {
+        // You can tell hardhat toolbox not to include any deployments (hover over the property name to see full docs)
+        deploymentSourcePackages: [],
+        // You can tell hardhat not to include any artifacts either
+        // artifactSourcePackages: [],
     },
 }
 

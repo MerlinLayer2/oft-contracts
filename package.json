@@ -75,5 +75,12 @@
   "overrides": {
     "ethers": "^5.7.2",
     "hardhat-deploy": "^0.12.1"
+  },
+  "dependencies": {
+    "@layerzerolabs/oapp-evm-upgradeable": "^0.1.2",
+    "@layerzerolabs/oft-evm-upgradeable": "^3.0.2",
+    "@nomiclabs/hardhat-waffle": "^2.0.6",
+    "@openzeppelin/hardhat-upgrades": "^3.9.0",
+    "hardhat-deploy-ethers": "^0.4.2"
   }
 }
