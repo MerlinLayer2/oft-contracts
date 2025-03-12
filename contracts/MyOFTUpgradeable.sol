@@ -66,12 +66,10 @@ contract MyOFTUpgradeable is OFTUpgradeable, RateLimiter {
         _setRateLimits(_rateLimitConfigs);
     }
 
-    // mint
     function mint(address to, uint256 amount) external onlyMintAdmin {
         _mint(to, amount);
     }
 
-    // burn
     function burn(address from, uint256 amount) external onlyMintAdmin {
         _burn(from, amount);
     }
