@@ -7,7 +7,8 @@ import { MyOFTUpgradeable } from "../MyOFTUpgradeable.sol";
 contract MyOFTUpgradeableMock is MyOFTUpgradeable {
     constructor(address _lzEndpoint) MyOFTUpgradeable(_lzEndpoint) {}
 
-    function mint(address _to, uint256 _amount) public {
-        _mint(_to, _amount);
-    }
+//    function mint(address _to, uint256 _amount) public {
+//        _mint(_to, _amount);
+//    }
+
 }
