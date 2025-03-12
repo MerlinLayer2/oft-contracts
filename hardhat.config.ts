@@ -76,11 +76,11 @@ const config: HardhatUserConfig = {
     },
     namedAccounts: {
         deployer: {
-            default: '0x58eE238A5aB9e90D063A7B43D498782664dc5716', // wallet address of index[0], of the mnemonic in .env
+            default: '0xD83eB140a0F464c6Af07E8d9Da301500275073BA', // wallet address of index[0], of the mnemonic in .env
         },
         admin: {
-            polygon: '0x58eE238A5aB9e90D063A7B43D498782664dc5716',
-            base: '0x58eE238A5aB9e90D063A7B43D498782664dc5716',
+            polygon: '0xD83eB140a0F464c6Af07E8d9Da301500275073BA',
+            base: '0xD83eB140a0F464c6Af07E8d9Da301500275073BA',
         },
     },
     layerZero: {

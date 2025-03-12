@@ -5,12 +5,12 @@ import { generateConnectionsConfig } from "@layerzerolabs/metadata-tools";
 
 const polygonContract: OmniPointHardhat = {
     eid: EndpointId.POLYGON_V2_MAINNET,
-    contractName: 'MBTC_OFTAdapter',
+    contractName: 'MyOFTAdapterUpgradeable',
 }
 
 const baseContract: OmniPointHardhat = {
     eid: EndpointId.BASE_V2_MAINNET,
-    contractName: 'MBTC_OFT',
+    contractName: 'MyOFTUpgradeable',
 }
 
 export default async function () {
