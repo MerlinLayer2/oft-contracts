@@ -56,19 +56,17 @@ const config: HardhatUserConfig = {
         ],
     },
     networks: {
-        'sepolia-testnet': {
-            eid: EndpointId.SEPOLIA_V2_TESTNET,
-            url: process.env.RPC_URL_SEPOLIA || 'https://rpc.sepolia.org/',
+        polygon: {
+            eid: EndpointId.POLYGON_V2_MAINNET,
+            url: 'https://polygon-pokt.nodies.app', //https://polygon.llamarpc.com、https://polygon-pokt.nodies.app
             accounts,
+            oftAdapter: {
+                tokenAddress: '0x32491B669cdaaC8DdE29C28EaE0cBf5A844f1d56', // Set the token address for the OFT adapter
+            },
         },
-        'avalanche-testnet': {
-            eid: EndpointId.AVALANCHE_V2_TESTNET,
-            url: process.env.RPC_URL_FUJI || 'https://rpc.ankr.com/avalanche_fuji',
-            accounts,
-        },
-        'amoy-testnet': {
-            eid: EndpointId.AMOY_V2_TESTNET,
-            url: process.env.RPC_URL_AMOY || 'https://polygon-amoy-bor-rpc.publicnode.com',
+        base: {
+            eid: EndpointId.BASE_V2_MAINNET,
+            url: 'https://base-pokt.nodies.app', //https://base.llamarpc.com、https://base-pokt.nodies.app
             accounts,
         },
         hardhat: {
@@ -78,7 +76,11 @@ const config: HardhatUserConfig = {
     },
     namedAccounts: {
         deployer: {
-            default: 0, // wallet address of index[0], of the mnemonic in .env
+            default: '0x58eE238A5aB9e90D063A7B43D498782664dc5716', // wallet address of index[0], of the mnemonic in .env
+        },
+        admin: {
+            polygon: '0x58eE238A5aB9e90D063A7B43D498782664dc5716',
+            base: '0x58eE238A5aB9e90D063A7B43D498782664dc5716',
         },
     },
     layerZero: {
@@ -86,6 +88,12 @@ const config: HardhatUserConfig = {
         deploymentSourcePackages: [],
         // You can tell hardhat not to include any artifacts either
         // artifactSourcePackages: [],
+    },
+    etherscan: {
+        apiKey: {
+            polygon: 'FEK5DXKEUCFVEA2GUP48UQ3YUT7DPIXI14',
+            base: 'N5EF74NP5UH4T1KDM3NM6BJ1TZAMIZE6F2',
+        },
     },
 }
 

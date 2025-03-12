@@ -13,69 +13,7 @@ const baseContract: OmniPointHardhat = {
     contractName: 'MBTC_OFT',
 }
 
-const EVM_ENFORCED_OPTIONS_POLYGON_TO_BASE: OAppEnforcedOption[] = [
-    {
-        msgType: 1,
-        optionType: ExecutorOptionType.LZ_RECEIVE,
-        gas: 100000,
-        value: 0,
-    },
-    {
-        msgType: 2,
-        optionType: ExecutorOptionType.LZ_RECEIVE,
-        gas: 100000,
-        value: 0,
-    },
-    {
-        msgType: 2,
-        optionType: ExecutorOptionType.COMPOSE,
-        index: 0,
-        gas: 100000,
-        value: 0,
-    },
-];
-
-const EVM_ENFORCED_OPTIONS_BASE_TO_POLYGON: OAppEnforcedOption[] = [
-    {
-        msgType: 1,
-        optionType: ExecutorOptionType.LZ_RECEIVE,
-        gas: 80000,
-        value: 0,
-    },
-    {
-        msgType: 2,
-        optionType: ExecutorOptionType.LZ_RECEIVE,
-        gas: 80000,
-        value: 0,
-    },
-    {
-        msgType: 2,
-        optionType: ExecutorOptionType.COMPOSE,
-        index: 0,
-        gas: 80000,
-        value: 0,
-    },
-];
-
 export default async function () {
-    // explain: [srcContract, dstContract, [requiredDVNs, [optionalDVNs, threshold]], [srcToDstConfirmations, dstToSrcConfirmations]], [enforcedOptionsSrcToDst, enforcedOptionsDstToSrc]
-    // const connections = await generateConnectionsConfig([
-    //     [polygonContract, baseContract, [['LayerZero Labs', 'Google'], []], [15, 10], [EVM_ENFORCED_OPTIONS_POLYGON_TO_BASE, EVM_ENFORCED_OPTIONS_BASE_TO_POLYGON]],
-    // ]);
-
-    // console.log('......connections = ', connections);
-
-    // console.log('......');
-    // connections.forEach(item => {
-    //     console.log('==================')
-    //     console.log('...item: ', item)
-    //     console.log('...sendConfig', item.config.sendConfig)
-    //     console.log('...enforcedOptions', item.config.enforcedOptions)
-    //     console.log('...receiveConfig', item.config.receiveConfig)
-    // });
-
-    // return
-
     return {
         contracts: [{ contract: polygonContract }, { contract: baseContract }],
         connections: [
