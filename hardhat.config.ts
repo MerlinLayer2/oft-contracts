@@ -16,6 +16,8 @@ import '@layerzerolabs/toolbox-hardhat'
 import { HardhatUserConfig, HttpNetworkAccountsUserConfig } from 'hardhat/types'
 
 import { EndpointId } from '@layerzerolabs/lz-definitions'
+import './task/send'
+import './type-extensions'
 
 // Set your preferred authentication method
 //
@@ -58,20 +60,21 @@ const config: HardhatUserConfig = {
     networks: {
         polygon: {
             eid: EndpointId.POLYGON_V2_MAINNET,
-            url: 'https://polygon-pokt.nodies.app', //https://polygon.llamarpc.com、https://polygon-pokt.nodies.app
+            url: 'https://polygon.llamarpc.com', //https://polygon.llamarpc.com、https://polygon-pokt.nodies.app
             accounts,
             oftAdapter: {
-                tokenAddress: '0x32491B669cdaaC8DdE29C28EaE0cBf5A844f1d56', // Set the token address for the OFT adapter
+                tokenAddress: '0x73d090017212066322e48Ffca90BEE6d51F44a2F', // Set the token address for the OFT adapter
             },
         },
         base: {
             eid: EndpointId.BASE_V2_MAINNET,
-            url: 'https://base-pokt.nodies.app', //https://base.llamarpc.com、https://base-pokt.nodies.app
+            url: 'https://mainnet.base.org', //https://base.llamarpc.com、https://base-pokt.nodies.app
             accounts,
         },
         hardhat: {
             // Need this for testing because TestHelperOz5.sol is exceeding the compiled contract size limit
             allowUnlimitedContractSize: true,
+            loggingEnabled: true, // start log ...
         },
     },
     namedAccounts: {

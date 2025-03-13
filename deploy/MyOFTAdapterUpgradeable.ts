@@ -15,9 +15,14 @@ const deploy: DeployFunction = async (hre) => {
 
     const { address } = getDeploymentAddressAndAbi(lzNetworkName, 'EndpointV2')
 
-    await deploy(contractName, {
+    if (hre.network.config.oftAdapter == null) {
+        console.warn(`oftAdapter not configured on network config, skipping OFTWrapper deployment`)
+        return
+    }
+
+    const { addressOut } = await deploy(contractName, {
         from: signer.address,
-        args: ['0x', address], // replace '0x' with the address of the ERC-20 token
+        args: ['0x73d090017212066322e48Ffca90BEE6d51F44a2F', address], // TODO: replace '0x' with the address of the ERC-20 token
         log: true,
         waitConfirmations: 1,
         skipIfAlreadyDeployed: false,
@@ -32,6 +37,8 @@ const deploy: DeployFunction = async (hre) => {
             },
         },
     })
+
+    console.log(`Deployed contract: ${contractName}, network: ${hre.network.name}, addressOut: ${addressOut}`)
 }
 
 deploy.tags = [contractName]
