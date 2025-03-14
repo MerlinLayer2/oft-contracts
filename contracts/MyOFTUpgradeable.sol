@@ -38,18 +38,18 @@ contract MyOFTUpgradeable is OFTUpgradeable, RateLimiter {
         mintAdmin = _delegate;
     }
 
-    // cross out: check rateLimit and pause
+    // cross out: check rateLimit (lock)
     function _debit(
         address _from,
         uint256 _amountLD,
         uint256 _minAmountLD,
         uint32 _dstEid
-    ) internal override(OFTUpgradeable) whenNotPaused returns (uint256 amountSentLD, uint256 amountReceivedLD) {
+    ) internal override(OFTUpgradeable) returns (uint256 amountSentLD, uint256 amountReceivedLD) {
         _outflow(_dstEid, _amountLD);
         (amountSentLD, amountReceivedLD) = super._debit(_from, _amountLD, _minAmountLD, _dstEid);
     }
 
-    // cross in: check pause
+    // cross in: check pause (unlock)
     function _credit(
         address _to,
         uint256 _amountLD,
@@ -66,7 +66,7 @@ contract MyOFTUpgradeable is OFTUpgradeable, RateLimiter {
         _setRateLimits(_rateLimitConfigs);
     }
 
-    function mint(address to, uint256 amount) external onlyMintAdmin {
+    function mint(address to, uint256 amount) external onlyMintAdmin whenNotPaused {
         _mint(to, amount);
     }
 
