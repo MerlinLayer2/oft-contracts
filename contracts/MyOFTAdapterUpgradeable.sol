@@ -30,18 +30,18 @@ contract MyOFTAdapterUpgradeable is OFTAdapterUpgradeable, RateLimiter {
         __Ownable_init(_delegate);
     }
 
-    // cross out: check rateLimit and pause
+    // cross out: check rateLimit and pause (lock)
     function _debit(
         address _from,
         uint256 _amountLD,
         uint256 _minAmountLD,
         uint32 _dstEid
-    ) internal override(OFTAdapterUpgradeable) whenNotPaused returns (uint256 amountSentLD, uint256 amountReceivedLD) {
+    ) internal override(OFTAdapterUpgradeable) returns (uint256 amountSentLD, uint256 amountReceivedLD) {
         _outflow(_dstEid, _amountLD);
         (amountSentLD, amountReceivedLD) = super._debit(_from, _amountLD, _minAmountLD, _dstEid);
     }
 
-    // cross in: check pause
+    // cross in: check pause (unlock)
     function _credit(
         address _to,
         uint256 _amountLD,

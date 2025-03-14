@@ -38,7 +38,7 @@ contract MyOFTUpgradeable is OFTUpgradeable, RateLimiter {
         mintAdmin = _delegate;
     }
 
-    // cross out: check rateLimit (lock)
+    // cross out: check rateLimit (burn)
     function _debit(
         address _from,
         uint256 _amountLD,
@@ -49,7 +49,7 @@ contract MyOFTUpgradeable is OFTUpgradeable, RateLimiter {
         (amountSentLD, amountReceivedLD) = super._debit(_from, _amountLD, _minAmountLD, _dstEid);
     }
 
-    // cross in: check pause (unlock)
+    // cross in: check pause (mint)
     function _credit(
         address _to,
         uint256 _amountLD,
@@ -66,12 +66,20 @@ contract MyOFTUpgradeable is OFTUpgradeable, RateLimiter {
         _setRateLimits(_rateLimitConfigs);
     }
 
-    function mint(address to, uint256 amount) external onlyMintAdmin whenNotPaused {
+    function mint(address to, uint256 amount) external onlyMintAdmin {
         _mint(to, amount);
     }
 
     function burn(address from, uint256 amount) external onlyMintAdmin {
         _burn(from, amount);
+    }
+
+    function transfer(address to, uint256 amount) public virtual override whenNotPaused returns (bool) {
+        return super.transfer(to, amount);
+    }
+
+    function transferFrom(address from, address to, uint256 value) public virtual override whenNotPaused returns (bool) {
+        return super.transferFrom(from, to, value);
     }
 
     // mintAdmin
