@@ -22,7 +22,7 @@ const deploy: DeployFunction = async (hre) => {
 
     const { addressOut } = await deploy(contractName, {
         from: signer.address,
-        args: ['0x73d090017212066322e48Ffca90BEE6d51F44a2F', address], // TODO: replace '0x' with the address of the ERC-20 token
+        args: ['0x763B6B8525202520D02eb73e5c019Ee25c4466a2', address], // TODO: replace '0x' with the address of the ERC-20 token
         log: true,
         waitConfirmations: 1,
         skipIfAlreadyDeployed: false,
@@ -41,6 +41,6 @@ const deploy: DeployFunction = async (hre) => {
     console.log(`Deployed contract: ${contractName}, network: ${hre.network.name}, addressOut: ${addressOut}`)
 }
 
-deploy.tags = [contractName]
+deploy.tags = ['OFTAdapter']
 
 export default deploy

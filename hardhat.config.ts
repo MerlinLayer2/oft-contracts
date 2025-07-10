@@ -58,12 +58,12 @@ const config: HardhatUserConfig = {
         ],
     },
     networks: {
-        polygon: {
-            eid: EndpointId.POLYGON_V2_MAINNET,
-            url: 'https://polygon.llamarpc.com', //https://polygon.llamarpc.com、https://polygon-pokt.nodies.app
+        merlin: {
+            eid: EndpointId.MERLIN_V2_MAINNET,
+            url: 'https://rpc.merlinchain.io', //https://polygon.llamarpc.com、https://polygon-pokt.nodies.app
             accounts,
             oftAdapter: {
-                tokenAddress: '0x73d090017212066322e48Ffca90BEE6d51F44a2F', // Set the token address for the OFT adapter
+                tokenAddress: '0x763B6B8525202520D02eb73e5c019Ee25c4466a2', // Set the token address for the OFT adapter
             },
         },
         base: {
@@ -82,7 +82,7 @@ const config: HardhatUserConfig = {
             default: '0xD83eB140a0F464c6Af07E8d9Da301500275073BA', // wallet address of index[0], of the mnemonic in .env
         },
         admin: {
-            polygon: '0xD83eB140a0F464c6Af07E8d9Da301500275073BA',
+            merlin: '0xD83eB140a0F464c6Af07E8d9Da301500275073BA',
             base: '0xD83eB140a0F464c6Af07E8d9Da301500275073BA',
         },
     },
@@ -94,7 +94,7 @@ const config: HardhatUserConfig = {
     },
     etherscan: {
         apiKey: {
-            polygon: 'FEK5DXKEUCFVEA2GUP48UQ3YUT7DPIXI14',
+            // merlin: 'FEK5DXKEUCFVEA2GUP48UQ3YUT7DPIXI14',
             base: 'N5EF74NP5UH4T1KDM3NM6BJ1TZAMIZE6F2',
         },
     },
