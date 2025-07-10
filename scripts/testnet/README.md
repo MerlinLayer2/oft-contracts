@@ -1,0 +1,1 @@
+forge script scripts/testnet/adapter.s.sol:CallSend --rpc-url merlin_mainnet --broadcast -vvv

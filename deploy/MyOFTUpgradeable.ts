@@ -20,7 +20,7 @@ const deploy: DeployFunction = async (hre) => {
         return
     }
 
-    const { addressOut } = await deploy(contractName, {
+    const addressOut = await deploy(contractName, {
         from: signer.address,
         args: [address],
         log: true,
@@ -32,13 +32,13 @@ const deploy: DeployFunction = async (hre) => {
             execute: {
                 init: {
                     methodName: 'initialize',
-                    args: ['MyOFT', 'MOFT', signer.address], // TODO: add name/symbol
+                    args: ['MyOFT2', 'MOFT2', signer.address], // TODO: add name/symbol
                 },
             },
         },
     })
 
-    console.log(`Deployed contract: ${contractName}, network: ${hre.network.name}, addressOut: ${addressOut}`)
+    console.log(`Deployed contract: ${contractName}, network: ${hre.network.name}, addressOut: ${addressOut.address}`)
 }
 
 deploy.tags = [contractName]
