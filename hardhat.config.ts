@@ -60,10 +60,11 @@ const config: HardhatUserConfig = {
     networks: {
         polygon: {
             eid: EndpointId.POLYGON_V2_MAINNET,
-            url: 'https://polygon.llamarpc.com', //https://polygon.llamarpc.com、https://polygon-pokt.nodies.app
+            url: 'https://polygon-rpc.com', //'https://polygon-pokt.nodies.app' || 'https://1rpc.io/matic' || 'https://polygon.llamarpc.com',
             accounts,
             oftAdapter: {
                 tokenAddress: '0x73d090017212066322e48Ffca90BEE6d51F44a2F', // Set the token address for the OFT adapter
+                depoly: true,
             },
         },
         base: {
@@ -88,7 +89,10 @@ const config: HardhatUserConfig = {
     },
     layerZero: {
         // You can tell hardhat toolbox not to include any deployments (hover over the property name to see full docs)
-        deploymentSourcePackages: [],
+        deploymentSourcePackages: [
+            '@layerzerolabs/oft-evm-upgradeable',
+            '@layerzerolabs/oapp-evm'
+        ],
         // You can tell hardhat not to include any artifacts either
         // artifactSourcePackages: [],
     },
