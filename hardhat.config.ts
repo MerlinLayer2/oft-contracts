@@ -60,7 +60,7 @@ const config: HardhatUserConfig = {
     networks: {
         polygon: {
             eid: EndpointId.POLYGON_V2_MAINNET,
-            url: 'https://polygon-rpc.com', //'https://polygon-pokt.nodies.app' || 'https://1rpc.io/matic' || 'https://polygon.llamarpc.com',
+            url: 'https://polygon-rpc.com', //'https://polygon-bor-rpc.publicnode.com', //'https://polygon-pokt.nodies.app' || 'https://1rpc.io/matic' || 'https://polygon.llamarpc.com',
             accounts,
             oftAdapter: {
                 tokenAddress: '0x73d090017212066322e48Ffca90BEE6d51F44a2F', // Set the token address for the OFT adapter

@@ -114,6 +114,10 @@ task('send', 'Sends tokens from either OFT')
         const amount = ethers.utils.parseUnits(taskArgs.amount, decimals);
         let options = Options.newOptions().addExecutorLzReceiveOption('130000', 0).toBytes();
 
+        // console.log('----- innerTokenAddress = ', oftContract.address)
+        // const tx = await oftContract.approve(oftDeployment.address, amount);
+        // await tx.wait();
+
         // Now you can interact with the correct contract
         const oft = oftContract;
 
