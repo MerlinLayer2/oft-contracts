@@ -15,7 +15,12 @@ const deploy: DeployFunction = async (hre) => {
 
     const { address } = getDeploymentAddressAndAbi(lzNetworkName, 'EndpointV2')
 
-    await deploy(contractName, {
+    if (hre.network.config.oftAdapter != null) {
+        console.warn(`oftAdapter configuration found on OFT deployment, skipping OFT deployment`)
+        return
+    }
+
+    const { addressOut } = await deploy(contractName, {
         from: signer.address,
         args: [address],
         log: true,
@@ -32,6 +37,8 @@ const deploy: DeployFunction = async (hre) => {
             },
         },
     })
+
+    console.log(`Deployed contract: ${contractName}, network: ${hre.network.name}, addressOut: ${addressOut}`)
 }
 
 deploy.tags = [contractName]
