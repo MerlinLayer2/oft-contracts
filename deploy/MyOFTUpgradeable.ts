@@ -32,7 +32,7 @@ const deploy: DeployFunction = async (hre) => {
             execute: {
                 init: {
                     methodName: 'initialize',
-                    args: ['MBTC-TEST1', 'MBTC-TEST1', signer.address], // TODO: add name/symbol
+                    args: ['Merlin\'s Seal BTC', 'M-BTC', signer.address], // TODO: add name/symbol
                 },
             },
         },

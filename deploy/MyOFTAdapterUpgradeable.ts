@@ -22,10 +22,11 @@ const deploy: DeployFunction = async (hre) => {
 
     const addressOut = await deploy(contractName, {
         from: signer.address,
-        args: ['0x73d090017212066322e48Ffca90BEE6d51F44a2F', address], // TODO: replace '0x' with the address of the ERC-20 token
+        args: ['0x2f913c820ed3beb3a67391a6eff64e70c4b20b19', address], // TODO: replace '0x' with the address of the ERC-20 token
         log: true,
         waitConfirmations: 1,
         skipIfAlreadyDeployed: false,
+        gasLimit: 5000000, // 增加gas限制
         proxy: {
             proxyContract: 'OpenZeppelinTransparentProxy',
             owner: signer.address,

@@ -3,29 +3,29 @@ import { OAppEnforcedOption, OmniPointHardhat } from "@layerzerolabs/toolbox-har
 import { EndpointId } from "@layerzerolabs/lz-definitions";
 import { generateConnectionsConfig } from "@layerzerolabs/metadata-tools";
 
-const polygonContract: OmniPointHardhat = {
-    eid: EndpointId.POLYGON_V2_MAINNET,
+const ethContract: OmniPointHardhat = {
+    eid: EndpointId.ETHEREUM_V2_MAINNET,
     contractName: 'MyOFTAdapterUpgradeable',
 }
 
-const baseContract: OmniPointHardhat = {
-    eid: EndpointId.BASE_V2_MAINNET,
+const tacContract: OmniPointHardhat = {
+    eid: EndpointId.TAC_V2_MAINNET,
     contractName: 'MyOFTUpgradeable',
 }
 
 export default async function () {
     return {
-        contracts: [{ contract: polygonContract }, { contract: baseContract }],
+        contracts: [{ contract: ethContract }, { contract: tacContract }],
         connections: [
             {
                 // Sets the peer `from -> to`. Optional, you do not have to connect all pathways.
-                from: polygonContract,
-                to: baseContract,
+                from: ethContract,
+                to: tacContract,
             },
             {
                 // Sets the peer `from -> to`. Optional, you do not have to connect all pathways.
-                from: baseContract,
-                to: polygonContract,
+                from: tacContract,
+                to: ethContract,
             },
         ],
     }

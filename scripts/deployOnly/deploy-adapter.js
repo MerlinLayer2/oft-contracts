@@ -21,8 +21,8 @@
 //
 //     // 2. Instantiating a new Box smart contract
 //     const bridge = await BridgeFactory.deploy(
-//         '0x73d090017212066322e48Ffca90BEE6d51F44a2F',
-//         '0xD83eB140a0F464c6Af07E8d9Da301500275073BA'
+//         '0x2f913c820ed3beb3a67391a6eff64e70c4b20b19',
+//         '0x00301663BcA124aFF4a3B42512f3110E078f2e33'
 //     );
 //
 //     // 3. Waiting for the deployment to resolve
@@ -39,5 +39,6 @@
 //
 // // deploy+verify.
 // // cmd1: npx hardhat run scripts/deployOnly/deploy-logic.js --network btclayer2
-// // cmd2: npx hardhat verify --network btclayer2 0xB354DE4A8072BBD6e32bB152D72287475CAAeEDe
+// // cmd2: npx hardhat verify --network tac 0x08B8125aD72da5F6Cd6d6Af66360Ac08f5b78a48
+// //       npx hardhat verify --network eth 0x08B8125aD72da5F6Cd6d6Af66360Ac08f5b78a48
 //

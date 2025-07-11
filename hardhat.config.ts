@@ -58,18 +58,19 @@ const config: HardhatUserConfig = {
         ],
     },
     networks: {
-        polygon: {
-            eid: EndpointId.POLYGON_V2_MAINNET,
-            url: 'https://polygon-rpc.com', //'https://polygon-bor-rpc.publicnode.com', //'https://polygon-pokt.nodies.app' || 'https://1rpc.io/matic' || 'https://polygon.llamarpc.com',
+        eth: {
+            eid: EndpointId.ETHEREUM_V2_MAINNET,
+            url: 'https://ethereum-rpc.publicnode.com', //'https://eth.llamarpc.com', //'https://ethereum-rpc.publicnode.com'
             accounts,
+            gasLimit: 8000000,
             oftAdapter: {
-                tokenAddress: '0x73d090017212066322e48Ffca90BEE6d51F44a2F', // Set the token address for the OFT adapter
+                tokenAddress: '0x2f913c820ed3beb3a67391a6eff64e70c4b20b19', // Set the token address for the OFT adapter
                 depoly: true,
             },
         },
-        base: {
-            eid: EndpointId.BASE_V2_MAINNET,
-            url: 'https://mainnet.base.org', //https://base.llamarpc.com、https://base-pokt.nodies.app
+        tac: {
+            eid: EndpointId.TAC_V2_MAINNET,
+            url: 'https://rpc.ankr.com/tac', //https://rpc.ankr.com/tac、https://rpc.tac.build
             accounts,
         },
         hardhat: {
@@ -80,11 +81,11 @@ const config: HardhatUserConfig = {
     },
     namedAccounts: {
         deployer: {
-            default: '0xD83eB140a0F464c6Af07E8d9Da301500275073BA', // wallet address of index[0], of the mnemonic in .env
+            default: '0x00301663BcA124aFF4a3B42512f3110E078f2e33', // wallet address of index[0], of the mnemonic in .env
         },
         admin: {
-            polygon: '0xD83eB140a0F464c6Af07E8d9Da301500275073BA',
-            base: '0xD83eB140a0F464c6Af07E8d9Da301500275073BA',
+            polygon: '0x00301663BcA124aFF4a3B42512f3110E078f2e33',
+            base: '0x00301663BcA124aFF4a3B42512f3110E078f2e33',
         },
     },
     layerZero: {
@@ -98,8 +99,8 @@ const config: HardhatUserConfig = {
     },
     etherscan: {
         apiKey: {
-            polygon: 'FEK5DXKEUCFVEA2GUP48UQ3YUT7DPIXI14',
-            base: 'N5EF74NP5UH4T1KDM3NM6BJ1TZAMIZE6F2',
+            eth: 'PTIT8NHCU5XTE993KYYYWJ4E3M5S2NP16E',
+            tac: '25f2b9bf-c4bd-43b6-9790-863a116edf56',
         },
     },
 }
