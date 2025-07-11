@@ -58,7 +58,7 @@ const config: HardhatUserConfig = {
         ],
     },
     networks: {
-        eth: {
+        mainnet: {
             eid: EndpointId.ETHEREUM_V2_MAINNET,
             url: 'https://ethereum-rpc.publicnode.com', //'https://eth.llamarpc.com', //'https://ethereum-rpc.publicnode.com'
             accounts,
@@ -99,9 +99,27 @@ const config: HardhatUserConfig = {
     },
     etherscan: {
         apiKey: {
-            eth: 'PTIT8NHCU5XTE993KYYYWJ4E3M5S2NP16E',
+            mainnet: 'PTIT8NHCU5XTE993KYYYWJ4E3M5S2NP16E',
             tac: '25f2b9bf-c4bd-43b6-9790-863a116edf56',
         },
+        customChains: [
+            {
+                network: "tac",
+                chainId: 239,
+                urls: {
+                    apiURL: "https://explorer.tac.build/api",
+                    browserURL: "https://explorer.tac.build",
+                },
+            },
+            {
+                network: "mainnet",
+                chainId: 1,
+                urls: {
+                    apiURL: "https://api.etherscan.io/api",
+                    browserURL: "https://etherscan.io",
+                },
+            },
+        ],
     },
 }
 

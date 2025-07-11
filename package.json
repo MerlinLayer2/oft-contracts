@@ -39,7 +39,7 @@
     "@layerzerolabs/test-devtools-evm-foundry": "~6.0.2",
     "@layerzerolabs/toolbox-foundry": "~0.1.12",
     "@layerzerolabs/toolbox-hardhat": "~0.6.8",
-    "@nomiclabs/hardhat-ethers": "^2.2.3",
+    "@nomicfoundation/hardhat-verify": "^2.0.14",
     "@nomiclabs/hardhat-waffle": "^2.0.6",
     "@openzeppelin/contracts": "^5.0.2",
     "@openzeppelin/contracts-upgradeable": "^5.0.2",
@@ -54,7 +54,7 @@
     "eslint": "^8.55.0",
     "eslint-plugin-jest-extended": "~2.0.0",
     "ethers": "^5.7.2",
-    "hardhat": "^2.22.10",
+    "hardhat": "^2.25.0",
     "hardhat-contract-sizer": "^2.10.0",
     "hardhat-deploy": "^0.12.1",
     "hardhat-deploy-ethers": "^0.3.0-beta.13",
@@ -63,7 +63,7 @@
     "solhint": "^4.1.1",
     "solidity-bytes-utils": "^0.8.2",
     "ts-node": "^10.9.2",
-    "typescript": "^5.4.4"
+    "typescript": "^5.5.3"
   },
   "engines": {
     "node": ">=18.16.0"
@@ -77,5 +77,8 @@
   "overrides": {
     "ethers": "^5.7.2",
     "hardhat-deploy": "^0.12.1"
+  },
+  "dependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.2.3"
   }
 }
