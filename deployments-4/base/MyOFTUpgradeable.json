@@ -1,5 +1,5 @@
 {
-  "address": "0x852CAccEcb1398f1d6eD9E652923f80425eD8654",
+  "address": "0x0F113b40FF858cbe77E6f174308218086195721c",
   "abi": [
     {
       "anonymous": false,
@@ -123,6 +123,92 @@
     {
       "stateMutability": "payable",
       "type": "receive"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "spender",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "allowance",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "needed",
+          "type": "uint256"
+        }
+      ],
+      "name": "ERC20InsufficientAllowance",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "sender",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "balance",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "needed",
+          "type": "uint256"
+        }
+      ],
+      "name": "ERC20InsufficientBalance",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "approver",
+          "type": "address"
+        }
+      ],
+      "name": "ERC20InvalidApprover",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "receiver",
+          "type": "address"
+        }
+      ],
+      "name": "ERC20InvalidReceiver",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "sender",
+          "type": "address"
+        }
+      ],
+      "name": "ERC20InvalidSender",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "spender",
+          "type": "address"
+        }
+      ],
+      "name": "ERC20InvalidSpender",
+      "type": "error"
     },
     {
       "inputs": [],
@@ -288,6 +374,31 @@
       "anonymous": false,
       "inputs": [
         {
+          "indexed": true,
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "spender",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "value",
+          "type": "uint256"
+        }
+      ],
+      "name": "Approval",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
           "components": [
             {
               "internalType": "uint32",
@@ -325,6 +436,31 @@
         }
       ],
       "name": "Initialized",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "adminSetter",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "oldMintAdmin",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "mintAdmin",
+          "type": "address"
+        }
+      ],
+      "name": "MintAdminChanged",
       "type": "event"
     },
     {
@@ -534,6 +670,31 @@
       "type": "event"
     },
     {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "from",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "value",
+          "type": "uint256"
+        }
+      ],
+      "name": "Transfer",
+      "type": "event"
+    },
+    {
       "inputs": [],
       "name": "SEND",
       "outputs": [
@@ -596,6 +757,30 @@
       "type": "function"
     },
     {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "spender",
+          "type": "address"
+        }
+      ],
+      "name": "allowance",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
       "inputs": [],
       "name": "approvalRequired",
       "outputs": [
@@ -606,6 +791,67 @@
         }
       ],
       "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "spender",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "value",
+          "type": "uint256"
+        }
+      ],
+      "name": "approve",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "balanceOf",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "from",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "burn",
+      "outputs": [],
+      "stateMutability": "nonpayable",
       "type": "function"
     },
     {
@@ -645,6 +891,19 @@
           "internalType": "uint256",
           "name": "",
           "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "decimals",
+      "outputs": [
+        {
+          "internalType": "uint8",
+          "name": "",
+          "type": "uint8"
         }
       ],
       "stateMutability": "view",
@@ -713,6 +972,16 @@
     },
     {
       "inputs": [
+        {
+          "internalType": "string",
+          "name": "_name",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_symbol",
+          "type": "string"
+        },
         {
           "internalType": "address",
           "name": "_delegate",
@@ -967,6 +1236,37 @@
       "type": "function"
     },
     {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "mint",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "mintAdmin",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
       "inputs": [],
       "name": "msgInspector",
       "outputs": [
@@ -974,6 +1274,19 @@
           "internalType": "address",
           "name": "",
           "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "name",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
         }
       ],
       "stateMutability": "view",
@@ -1517,6 +1830,19 @@
       "inputs": [
         {
           "internalType": "address",
+          "name": "_account",
+          "type": "address"
+        }
+      ],
+      "name": "setMintAdmin",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
           "name": "_msgInspector",
           "type": "address"
         }
@@ -1615,6 +1941,19 @@
     },
     {
       "inputs": [],
+      "name": "symbol",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
       "name": "token",
       "outputs": [
         {
@@ -1624,6 +1963,72 @@
         }
       ],
       "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "totalSupply",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "transfer",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "from",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "value",
+          "type": "uint256"
+        }
+      ],
+      "name": "transferFrom",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "nonpayable",
       "type": "function"
     },
     {
@@ -1681,90 +2086,90 @@
       "type": "constructor"
     }
   ],
-  "transactionHash": "0x3ecabac802ce1e07a40c3d100d9f698213907e494a5fec574979e135ff72bfa1",
+  "transactionHash": "0x6905c2d4cf7a4657f8d4a4a1ac493b1f8c5a0e3e3605bf3df6bafe61c929f427",
   "receipt": {
     "to": null,
     "from": "0xD83eB140a0F464c6Af07E8d9Da301500275073BA",
-    "contractAddress": "0x852CAccEcb1398f1d6eD9E652923f80425eD8654",
-    "transactionIndex": 0,
-    "gasUsed": "799135",
-    "logsBloom": "0x00000000000000000000000000000000400000000000000000800000001000000000000000000000000004000000000000000002000000000000000000000000000000000000000040000000000002000001000000000000000000000000000000000000020000000000000000200800000000800010000000008000000000400040000000000000000800000000000000000000000080000000000000800000000000000000000000000000000000000010000000000000000000000000100400000020000000000000000000000000000000000404000000000000000020000000000000000080000000000000000000000000010000000020000000000000",
-    "blockHash": "0xd089fa02ca4bcb1be14478dfc87392d2fd00273ca72b5f1c8b04da592b93ad9d",
-    "transactionHash": "0x3ecabac802ce1e07a40c3d100d9f698213907e494a5fec574979e135ff72bfa1",
+    "contractAddress": "0x0F113b40FF858cbe77E6f174308218086195721c",
+    "transactionIndex": 113,
+    "gasUsed": "869749",
+    "logsBloom": "0x00000000000000000000000000000000400000000000000000800000001000000000000000000000000000004000000002000002000000000000000000000000400000000000000000000000000002000001000000000000000000000000000000000000020000000000000000000800000000800010000000000000000000400040000000800000000800000000000000000000000080000000000000800000000000000000000000000000000000000010000000000000010000000000000400000020000000000000000000200000000000000404000000000000000020000000000000000000000000000000000000000000010000000020000000000000",
+    "blockHash": "0x1c2cbcb3c52464b4d0ea458ed0cce2ced90c2f59d4221448e5584438964db91f",
+    "transactionHash": "0x6905c2d4cf7a4657f8d4a4a1ac493b1f8c5a0e3e3605bf3df6bafe61c929f427",
     "logs": [
       {
-        "transactionIndex": 0,
-        "blockNumber": 22956362,
-        "transactionHash": "0x3ecabac802ce1e07a40c3d100d9f698213907e494a5fec574979e135ff72bfa1",
-        "address": "0x852CAccEcb1398f1d6eD9E652923f80425eD8654",
+        "transactionIndex": 113,
+        "blockNumber": 32703932,
+        "transactionHash": "0x6905c2d4cf7a4657f8d4a4a1ac493b1f8c5a0e3e3605bf3df6bafe61c929f427",
+        "address": "0x0F113b40FF858cbe77E6f174308218086195721c",
         "topics": [
           "0xbc7cd75a20ee27fd9adebab32041f755214dbc6bffa90cc0225b39da2e5c2d3b",
-          "0x000000000000000000000000632c6779eca599b4804379be0fb7a40023b9ac50"
+          "0x000000000000000000000000d0df44311a59c42683980f10b078a8ae529c5500"
         ],
         "data": "0x",
-        "logIndex": 0,
-        "blockHash": "0xd089fa02ca4bcb1be14478dfc87392d2fd00273ca72b5f1c8b04da592b93ad9d"
+        "logIndex": 475,
+        "blockHash": "0x1c2cbcb3c52464b4d0ea458ed0cce2ced90c2f59d4221448e5584438964db91f"
       },
       {
-        "transactionIndex": 0,
-        "blockNumber": 22956362,
-        "transactionHash": "0x3ecabac802ce1e07a40c3d100d9f698213907e494a5fec574979e135ff72bfa1",
+        "transactionIndex": 113,
+        "blockNumber": 32703932,
+        "transactionHash": "0x6905c2d4cf7a4657f8d4a4a1ac493b1f8c5a0e3e3605bf3df6bafe61c929f427",
         "address": "0x1a44076050125825900e736c501f859c50fE728c",
         "topics": [
           "0x6ee10e9ed4d6ce9742703a498707862f4b00f1396a87195eb93267b3d7983981"
         ],
-        "data": "0x000000000000000000000000852caccecb1398f1d6ed9e652923f80425ed8654000000000000000000000000d83eb140a0f464c6af07e8d9da301500275073ba",
-        "logIndex": 1,
-        "blockHash": "0xd089fa02ca4bcb1be14478dfc87392d2fd00273ca72b5f1c8b04da592b93ad9d"
+        "data": "0x0000000000000000000000000f113b40ff858cbe77e6f174308218086195721c000000000000000000000000d83eb140a0f464c6af07e8d9da301500275073ba",
+        "logIndex": 476,
+        "blockHash": "0x1c2cbcb3c52464b4d0ea458ed0cce2ced90c2f59d4221448e5584438964db91f"
       },
       {
-        "transactionIndex": 0,
-        "blockNumber": 22956362,
-        "transactionHash": "0x3ecabac802ce1e07a40c3d100d9f698213907e494a5fec574979e135ff72bfa1",
-        "address": "0x852CAccEcb1398f1d6eD9E652923f80425eD8654",
+        "transactionIndex": 113,
+        "blockNumber": 32703932,
+        "transactionHash": "0x6905c2d4cf7a4657f8d4a4a1ac493b1f8c5a0e3e3605bf3df6bafe61c929f427",
+        "address": "0x0F113b40FF858cbe77E6f174308218086195721c",
         "topics": [
           "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0",
           "0x0000000000000000000000000000000000000000000000000000000000000000",
           "0x000000000000000000000000d83eb140a0f464c6af07e8d9da301500275073ba"
         ],
         "data": "0x",
-        "logIndex": 2,
-        "blockHash": "0xd089fa02ca4bcb1be14478dfc87392d2fd00273ca72b5f1c8b04da592b93ad9d"
+        "logIndex": 477,
+        "blockHash": "0x1c2cbcb3c52464b4d0ea458ed0cce2ced90c2f59d4221448e5584438964db91f"
       },
       {
-        "transactionIndex": 0,
-        "blockNumber": 22956362,
-        "transactionHash": "0x3ecabac802ce1e07a40c3d100d9f698213907e494a5fec574979e135ff72bfa1",
-        "address": "0x852CAccEcb1398f1d6eD9E652923f80425eD8654",
+        "transactionIndex": 113,
+        "blockNumber": 32703932,
+        "transactionHash": "0x6905c2d4cf7a4657f8d4a4a1ac493b1f8c5a0e3e3605bf3df6bafe61c929f427",
+        "address": "0x0F113b40FF858cbe77E6f174308218086195721c",
         "topics": [
           "0xc7f505b2f371ae2175ee4913f4499e1f2633a7b5936321eed1cdaeb6115181d2"
         ],
         "data": "0x0000000000000000000000000000000000000000000000000000000000000001",
-        "logIndex": 3,
-        "blockHash": "0xd089fa02ca4bcb1be14478dfc87392d2fd00273ca72b5f1c8b04da592b93ad9d"
+        "logIndex": 478,
+        "blockHash": "0x1c2cbcb3c52464b4d0ea458ed0cce2ced90c2f59d4221448e5584438964db91f"
       },
       {
-        "transactionIndex": 0,
-        "blockNumber": 22956362,
-        "transactionHash": "0x3ecabac802ce1e07a40c3d100d9f698213907e494a5fec574979e135ff72bfa1",
-        "address": "0x852CAccEcb1398f1d6eD9E652923f80425eD8654",
+        "transactionIndex": 113,
+        "blockNumber": 32703932,
+        "transactionHash": "0x6905c2d4cf7a4657f8d4a4a1ac493b1f8c5a0e3e3605bf3df6bafe61c929f427",
+        "address": "0x0F113b40FF858cbe77E6f174308218086195721c",
         "topics": [
           "0x7e644d79422f17c01e4894b5f4f588d331ebfa28653d42ae832dc59e38c9798f"
         ],
-        "data": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000005f4aaab0aecf97beea018ebbbc3ef7f5f23b41cc",
-        "logIndex": 4,
-        "blockHash": "0xd089fa02ca4bcb1be14478dfc87392d2fd00273ca72b5f1c8b04da592b93ad9d"
+        "data": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000008e89a4543d2ea1adf3d7158ecea5fd0a1a3c5849",
+        "logIndex": 479,
+        "blockHash": "0x1c2cbcb3c52464b4d0ea458ed0cce2ced90c2f59d4221448e5584438964db91f"
       }
     ],
-    "blockNumber": 22956362,
-    "cumulativeGasUsed": "799135",
+    "blockNumber": 32703932,
+    "cumulativeGasUsed": "32640746",
     "status": 1,
     "byzantium": true
   },
   "args": [
-    "0x632c6779ECa599B4804379BE0fb7a40023B9Ac50",
-    "0x5f4aAAb0aeCf97bEEA018EBbbc3EF7f5F23B41Cc",
-    "0xc4d66de8000000000000000000000000d83eb140a0f464c6af07e8d9da301500275073ba"
+    "0xD0df44311A59c42683980f10b078a8AE529c5500",
+    "0x8e89A4543D2EA1adf3D7158ECeA5FD0A1a3C5849",
+    "0x077f224a000000000000000000000000000000000000000000000000000000000000006000000000000000000000000000000000000000000000000000000000000000a0000000000000000000000000d83eb140a0f464c6af07e8d9da301500275073ba00000000000000000000000000000000000000000000000000000000000000064d794f465432000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000054d4f465432000000000000000000000000000000000000000000000000000000"
   ],
   "numDeployments": 1,
   "solcInputHash": "0e89febeebc7444140de8e67c9067d2c",
@@ -1774,10 +2179,12 @@
   "execute": {
     "methodName": "initialize",
     "args": [
+      "MyOFT2",
+      "MOFT2",
       "0xD83eB140a0F464c6Af07E8d9Da301500275073BA"
     ]
   },
-  "implementation": "0x632c6779ECa599B4804379BE0fb7a40023B9Ac50",
+  "implementation": "0xD0df44311A59c42683980f10b078a8AE529c5500",
   "devdoc": {
     "details": "This contract implements a proxy that is upgradeable by an admin. To avoid https://medium.com/nomic-labs-blog/malicious-backdoors-in-ethereum-proxies-62629adf3357[proxy selector clashing], which can potentially be used in an attack, this contract uses the https://blog.openzeppelin.com/the-transparent-proxy-pattern/[transparent proxy pattern]. This pattern implies two things that go hand in hand: 1. If any account other than the admin calls the proxy, the call will be forwarded to the implementation, even if that call matches one of the admin functions exposed by the proxy itself. 2. If the admin calls the proxy, it can access the admin functions, but its calls will never be forwarded to the implementation. If the admin tries to call a function on the implementation it will fail with an error that says \"admin cannot fallback to proxy target\". These properties mean that the admin account can only be used for admin actions like upgrading the proxy or changing the admin, so it's best if it's a dedicated account that is not used for anything else. This will avoid headaches due to sudden errors when trying to call a function from the proxy implementation. Our recommendation is for the dedicated account to be an instance of the {ProxyAdmin} contract. If set up this way, you should think of the `ProxyAdmin` instance as the real administrative interface of your proxy.",
     "kind": "dev",

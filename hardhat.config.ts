@@ -62,9 +62,7 @@ const config: HardhatUserConfig = {
             eid: EndpointId.MERLIN_V2_MAINNET,
             url: 'https://rpc.merlinchain.io', //https://polygon.llamarpc.com、https://polygon-pokt.nodies.app
             accounts,
-            oftAdapter: {
-                tokenAddress: '0x5841072dEdF95e16beC3782Bb6E0A54955B6A9AE', // Set the token address for the OFT adapter
-            },
+            oftAdapter: '0x5841072dEdF95e16beC3782Bb6E0A54955B6A9AE',
         },
         base: {
             eid: EndpointId.BASE_V2_MAINNET,

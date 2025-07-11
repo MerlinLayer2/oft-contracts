@@ -1,0 +1,7 @@
+npx hardhat lz:oft:send \
+  --src-eid 30266 \
+  --dst-eid 30184 \
+  --amount 0.1 \
+  --to 0xD83eB140a0F464c6Af07E8d9Da301500275073BA \
+  --compose-msg 0x000000000000000000000000abcdefabcdefabcdefabcdefabcdefabcdefabcd \
+  --extra-options 0x00030100110100000000000000000000000000fdfe00030200010000000000000000000000000000c350

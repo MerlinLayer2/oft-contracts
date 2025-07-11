@@ -20,6 +20,8 @@ const deploy: DeployFunction = async (hre) => {
         return
     }
 
+    console.log('.........not adapter');
+
     const addressOut = await deploy(contractName, {
         from: signer.address,
         args: [address],
