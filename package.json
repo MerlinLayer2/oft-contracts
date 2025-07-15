@@ -79,6 +79,8 @@
     "hardhat-deploy": "^0.12.1"
   },
   "dependencies": {
-    "@nomiclabs/hardhat-ethers": "^2.2.3"
+    "@layerzerolabs/metadata-tools": "^2.0.0",
+    "@nomiclabs/hardhat-ethers": "^2.2.3",
+    "@nomiclabs/hardhat-etherscan": "^3.1.8"
   }
 }

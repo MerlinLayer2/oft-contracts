@@ -2,20 +2,13 @@
 pragma solidity ^0.8.22;
 
 import { RateLimiter } from "@layerzerolabs/oapp-evm/contracts/oapp/utils/RateLimiter.sol";
-import { OFTUpgradeable } from "@layerzerolabs/oft-evm-upgradeable/contracts/oft/OFTUpgradeable.sol";
+import { OFTAdapterUpgradeable } from "@layerzerolabs/oft-evm-upgradeable/contracts/oft/OFTAdapterUpgradeable.sol";
 
-contract MyOFTUpgradeable is OFTUpgradeable, RateLimiter {
+contract MBTC_OFTAdaptor is OFTAdapterUpgradeable, RateLimiter {
     string public constant version = "1.0.0";
 
-    address public mintAdmin;
     address public pauseAdmin;
     bool public paused;
-
-    event MintAdminChanged(
-        address adminSetter,
-        address oldMintAdmin,
-        address mintAdmin
-    );
 
     event PauseAdminChanged(
         address adminSetter,
@@ -28,33 +21,32 @@ contract MyOFTUpgradeable is OFTUpgradeable, RateLimiter {
         bool paused
     );
 
-    constructor(address _lzEndpoint) OFTUpgradeable(_lzEndpoint) {
+    constructor(address _token, address _lzEndpoint) OFTAdapterUpgradeable(_token, _lzEndpoint) {
         _disableInitializers();
     }
 
-    function initialize(string memory _name, string memory _symbol, address _delegate) public initializer {
-        __OFT_init(_name, _symbol, _delegate);
+    function initialize(address _delegate) public initializer {
+        __OFTAdapter_init(_delegate);
         __Ownable_init(_delegate);
-        mintAdmin = _delegate;
     }
 
-    // cross out: check rateLimit (burn)
+    // cross out: check rateLimit and pause (lock)
     function _debit(
         address _from,
         uint256 _amountLD,
         uint256 _minAmountLD,
         uint32 _dstEid
-    ) internal override(OFTUpgradeable) returns (uint256 amountSentLD, uint256 amountReceivedLD) {
+    ) internal override(OFTAdapterUpgradeable) returns (uint256 amountSentLD, uint256 amountReceivedLD) {
         _outflow(_dstEid, _amountLD);
         (amountSentLD, amountReceivedLD) = super._debit(_from, _amountLD, _minAmountLD, _dstEid);
     }
 
-    // cross in: check pause (mint)
+    // cross in: check pause (unlock)
     function _credit(
         address _to,
         uint256 _amountLD,
         uint32 _srcEid /*_srcEid*/
-    ) internal virtual override(OFTUpgradeable) whenNotPaused returns (uint256 amountReceivedLD) {
+    ) internal virtual override(OFTAdapterUpgradeable) whenNotPaused returns (uint256 amountReceivedLD) {
         (amountReceivedLD) = super._credit(_to, _amountLD, _srcEid);
     }
 
@@ -64,35 +56,6 @@ contract MyOFTUpgradeable is OFTUpgradeable, RateLimiter {
      */
     function setRateLimits(RateLimitConfig[] calldata _rateLimitConfigs) external onlyOwner {
         _setRateLimits(_rateLimitConfigs);
-    }
-
-    function mint(address to, uint256 amount) external onlyMintAdmin {
-        _mint(to, amount);
-    }
-
-    function burn(address from, uint256 amount) external onlyMintAdmin {
-        _burn(from, amount);
-    }
-
-    function transfer(address to, uint256 amount) public virtual override whenNotPaused returns (bool) {
-        return super.transfer(to, amount);
-    }
-
-    function transferFrom(address from, address to, uint256 value) public virtual override whenNotPaused returns (bool) {
-        return super.transferFrom(from, to, value);
-    }
-
-    // mintAdmin
-    function setMintAdmin(address _account) public onlyOwner {
-        require(_account != address (0), "invalid _account");
-        address oldMintAdmin = mintAdmin;
-        mintAdmin = _account;
-        emit MintAdminChanged(msg.sender, oldMintAdmin, mintAdmin);
-    }
-
-    modifier onlyMintAdmin() {
-        require(msg.sender == mintAdmin, "not mint admin");
-        _;
     }
 
     // pause ...
@@ -109,6 +72,7 @@ contract MyOFTUpgradeable is OFTUpgradeable, RateLimiter {
     }
 
     function pause() public whenNotPaused {
+        require(msg.sender == pauseAdmin, "Illegal pause permissions");
         paused = true;
         emit PauseEvent(msg.sender, paused);
     }

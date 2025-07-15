@@ -3,7 +3,7 @@ import { type DeployFunction } from 'hardhat-deploy/types'
 import { EndpointId, endpointIdToNetwork } from '@layerzerolabs/lz-definitions'
 import { getDeploymentAddressAndAbi } from '@layerzerolabs/lz-evm-sdk-v2'
 
-const contractName = 'MyOFTUpgradeable'
+const contractName = 'MBTC_OFT'
 
 const deploy: DeployFunction = async (hre) => {
     const { deploy } = hre.deployments

@@ -5,28 +5,49 @@ import { generateConnectionsConfig } from "@layerzerolabs/metadata-tools";
 
 const ethContract: OmniPointHardhat = {
     eid: EndpointId.ETHEREUM_V2_MAINNET,
-    contractName: 'MyOFTAdapterUpgradeable',
+    contractName: 'MBTC_OFTAdaptor',
 }
 
 const tacContract: OmniPointHardhat = {
     eid: EndpointId.TAC_V2_MAINNET,
-    contractName: 'MyOFTUpgradeable',
+    contractName: 'MBTC_OFT',
 }
 
+const EVM_ENFORCED_OPTIONS_ETH_TO_TAC: OAppEnforcedOption[] = [
+    {
+        msgType: 1,
+        optionType: ExecutorOptionType.LZ_RECEIVE,
+        gas: 80000,
+        value: 0,
+    },
+    {
+        msgType: 2,
+        optionType: ExecutorOptionType.LZ_RECEIVE,
+        gas: 80000,
+        value: 0,
+    },
+    {
+        msgType: 2,
+        optionType: ExecutorOptionType.COMPOSE,
+        index: 0,
+        gas: 80000,
+        value: 0,
+    },
+];
+
+
+
 export default async function () {
+    // [srcContract, dstContract, [requiredDVNs, [optionalDVNs, threshold]], [srcToDstConfirmations, dstToSrcConfirmations]], [enforcedOptionsSrcToDst, enforcedOptionsDstToSrc]
+    const connections = await generateConnectionsConfig([
+        [ethContract, tacContract, [['LayerZero Labs'], []], [15, 10], [EVM_ENFORCED_OPTIONS_ETH_TO_TAC, EVM_ENFORCED_OPTIONS_ETH_TO_TAC]],
+    ]);
+
     return {
-        contracts: [{ contract: ethContract }, { contract: tacContract }],
-        connections: [
-            {
-                // Sets the peer `from -> to`. Optional, you do not have to connect all pathways.
-                from: ethContract,
-                to: tacContract,
-            },
-            {
-                // Sets the peer `from -> to`. Optional, you do not have to connect all pathways.
-                from: tacContract,
-                to: ethContract,
-            },
+        contracts: [
+            { contract: ethContract },
+            { contract: tacContract },
         ],
+        connections,
     }
 }
