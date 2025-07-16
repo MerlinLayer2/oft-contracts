@@ -133,6 +133,8 @@ task('send', 'Sends tokens from either OFT')
         // Get the quote for the send operation
         const feeQuote = await oft.quoteSend(sendParam, false);
         const nativeFee = feeQuote.nativeFee;
+        console.log('----- feeQuote = ', feeQuote)
+        return //todo notice：查看feeQuote多少
 
         console.log(
             `sending ${taskArgs.amount} token(s) to network ${getNetworkNameForEid(eidB)} (${eidB})`,
