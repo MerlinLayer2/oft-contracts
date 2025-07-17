@@ -109,6 +109,7 @@ contract MBTC_OFT is OFTUpgradeable, RateLimiter {
     }
 
     function pause() public whenNotPaused {
+        require(msg.sender == pauseAdmin, "Illegal pause permissions");
         paused = true;
         emit PauseEvent(msg.sender, paused);
     }

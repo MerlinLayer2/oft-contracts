@@ -14,6 +14,8 @@ const deploy: DeployFunction = async (hre) => {
     const lzNetworkName = endpointIdToNetwork(eid)
 
     const { address } = getDeploymentAddressAndAbi(lzNetworkName, 'EndpointV2')
+    console.log(`..... EndpointV2 address: ${address}`)
+    return
 
     if (hre.network.config.oftAdapter != null) {
         console.warn(`oftAdapter configuration found on OFT deployment, skipping OFT deployment`)
