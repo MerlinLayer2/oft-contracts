@@ -3,8 +3,8 @@ import { OAppEnforcedOption, OmniPointHardhat } from "@layerzerolabs/toolbox-har
 import { EndpointId } from "@layerzerolabs/lz-definitions";
 import { generateConnectionsConfig } from "@layerzerolabs/metadata-tools";
 
-const bscContract: OmniPointHardhat = {
-    eid: EndpointId.BSC_V2_TESTNET,
+const optimismContract: OmniPointHardhat = {
+    eid: EndpointId.OPTSEP_V2_TESTNET,
     contractName: 'MBTC_OFTAdaptor', // Note: change this to 'MyOFT' or your production contract name
 }
 
@@ -40,12 +40,12 @@ const EVM_ENFORCED_OPTIONS: OAppEnforcedOption[] = [
 export default async function () {
     // [srcContract, dstContract, [requiredDVNs, [optionalDVNs, threshold]], [srcToDstConfirmations, dstToSrcConfirmations]], [enforcedOptionsSrcToDst, enforcedOptionsDstToSrc]
     const connections = await generateConnectionsConfig([
-        [bscContract, arbitrumContract, [['LayerZero Labs'], []], [1, 1], [EVM_ENFORCED_OPTIONS, EVM_ENFORCED_OPTIONS]],
+        [optimismContract, arbitrumContract, [['LayerZero Labs'], []], [1, 1], [EVM_ENFORCED_OPTIONS, EVM_ENFORCED_OPTIONS]],
     ]);
 
     return {
         contracts: [
-            { contract: bscContract },
+            { contract: optimismContract },
             { contract: arbitrumContract },
         ],
         connections,

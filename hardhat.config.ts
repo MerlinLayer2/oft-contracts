@@ -58,15 +58,15 @@ const config: HardhatUserConfig = {
         ],
     },
     networks: {
-        'bsc-testnet': {
-            eid: EndpointId.BSC_V2_TESTNET,
-            url: 'https://bsc-testnet-dataseed.bnbchain.org',
+        'optimism-testnet': {
+            eid: EndpointId.OPTSEP_V2_TESTNET,
+            url: 'https://optimism-sepolia.gateway.tenderly.co',
             accounts,
             gasLimit: 8000000,
             // gasPrice: 1000000000, // 1 gwei
             // gasMultiplier: 1.5, // 增加gas乘数
             oftAdapter: {
-                tokenAddress: '0x24b384851506019274Bb0bEb974Be1B846630470', // Set the token address for the OFT adapter
+                tokenAddress: '0x5841072dEdF95e16beC3782Bb6E0A54955B6A9AE', // Set the token address for the OFT adapter
                 depoly: true,
             },
         },
@@ -89,7 +89,7 @@ const config: HardhatUserConfig = {
             default: '0xD83eB140a0F464c6Af07E8d9Da301500275073BA', // wallet address of index[0], of the mnemonic in .env
         },
         admin: {
-            'bsc-testnet': '0xD83eB140a0F464c6Af07E8d9Da301500275073BA',
+            'optimism-testnet': '0xD83eB140a0F464c6Af07E8d9Da301500275073BA',
             'arbitrum-testnet': '0xD83eB140a0F464c6Af07E8d9Da301500275073BA',
         },
     },
@@ -102,30 +102,30 @@ const config: HardhatUserConfig = {
         // You can tell hardhat not to include any artifacts either
         // artifactSourcePackages: [],
     },
-    // etherscan: {
-    //     apiKey: {
-    //         mainnet: 'PTIT8NHCU5XTE993KYYYWJ4E3M5S2NP16E',
-    //         tac: '25f2b9bf-c4bd-43b6-9790-863a116edf56',
-    //     },
-    //     customChains: [
-    //         {
-    //             network: "tac",
-    //             chainId: 239,
-    //             urls: {
-    //                 apiURL: "https://explorer.tac.build/api",
-    //                 browserURL: "https://explorer.tac.build",
-    //             },
-    //         },
-    //         {
-    //             network: "mainnet",
-    //             chainId: 1,
-    //             urls: {
-    //                 apiURL: "https://api.etherscan.io/api",
-    //                 browserURL: "https://etherscan.io",
-    //             },
-    //         },
-    //     ],
-    // },
+    etherscan: {
+        apiKey: {
+            'optimism-testnet': '55e95e70-c95e-420d-91fc-c4777e3d463c',
+            'arbitrum-testnet': 'xxx',
+        },
+        customChains: [
+            {
+                network: "optimism-testnet",
+                chainId: 11155420,
+                urls: {
+                    apiURL: "https://testnet-explorer.optimism.io/api",
+                    browserURL: "https://testnet-explorer.optimism.io"
+                }
+            },
+            {
+                network: "arbitrum-testnet",
+                chainId: 1,
+                urls: {
+                    apiURL: "https://api.etherscan.io/api",
+                    browserURL: "https://etherscan.io",
+                },
+            },
+        ],
+    },
 }
 
 export default config
