@@ -14,8 +14,8 @@ const deploy: DeployFunction = async (hre) => {
     const lzNetworkName = endpointIdToNetwork(eid)
 
     const { address } = getDeploymentAddressAndAbi(lzNetworkName, 'EndpointV2')
-    console.log(`..... EndpointV2 address: ${address}`)
-    return
+    console.log(`.....111 oft EndpointV2 address: ${address}`)
+    // return
 
     if (hre.network.config.oftAdapter != null) {
         console.warn(`oftAdapter configuration found on OFT deployment, skipping OFT deployment`)
@@ -27,6 +27,8 @@ const deploy: DeployFunction = async (hre) => {
         args: [address],
         log: true,
         waitConfirmations: 1,
+        gasLimit: 10000000, // 增加到1000万gas
+        gasPrice: 2000000000, // 2 Gwei
         skipIfAlreadyDeployed: false,
         proxy: {
             proxyContract: 'OpenZeppelinTransparentProxy',
@@ -34,7 +36,8 @@ const deploy: DeployFunction = async (hre) => {
             execute: {
                 init: {
                     methodName: 'initialize',
-                    args: ['Merlin\'s Seal BTC', 'M-BTC', signer.address], // TODO: add name/symbol
+                    args: ['Merlin\'s Seal BTC-1', 'M-BTC-1', signer.address], // TODO: add name/symbol
+                    gas: 8000000 // 单独设置初始化gas
                 },
             },
         },

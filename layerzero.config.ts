@@ -3,17 +3,17 @@ import { OAppEnforcedOption, OmniPointHardhat } from "@layerzerolabs/toolbox-har
 import { EndpointId } from "@layerzerolabs/lz-definitions";
 import { generateConnectionsConfig } from "@layerzerolabs/metadata-tools";
 
-const ethContract: OmniPointHardhat = {
-    eid: EndpointId.ETHEREUM_V2_MAINNET,
-    contractName: 'MBTC_OFTAdaptor',
+const bscContract: OmniPointHardhat = {
+    eid: EndpointId.BSC_V2_TESTNET,
+    contractName: 'MBTC_OFTAdaptor', // Note: change this to 'MyOFT' or your production contract name
 }
 
-const tacContract: OmniPointHardhat = {
-    eid: EndpointId.TAC_V2_MAINNET,
-    contractName: 'MBTC_OFT',
+const arbitrumContract: OmniPointHardhat = {
+    eid: EndpointId.ARBSEP_V2_TESTNET,
+    contractName: 'MBTC_OFT', // Note: change this to 'MyOFT' or your production contract name
 }
 
-const EVM_ENFORCED_OPTIONS_ETH_TO_TAC: OAppEnforcedOption[] = [
+const EVM_ENFORCED_OPTIONS: OAppEnforcedOption[] = [
     {
         msgType: 1,
         optionType: ExecutorOptionType.LZ_RECEIVE,
@@ -40,13 +40,13 @@ const EVM_ENFORCED_OPTIONS_ETH_TO_TAC: OAppEnforcedOption[] = [
 export default async function () {
     // [srcContract, dstContract, [requiredDVNs, [optionalDVNs, threshold]], [srcToDstConfirmations, dstToSrcConfirmations]], [enforcedOptionsSrcToDst, enforcedOptionsDstToSrc]
     const connections = await generateConnectionsConfig([
-        [ethContract, tacContract, [['LayerZero Labs'], []], [15, 10], [EVM_ENFORCED_OPTIONS_ETH_TO_TAC, EVM_ENFORCED_OPTIONS_ETH_TO_TAC]],
+        [bscContract, arbitrumContract, [['LayerZero Labs'], []], [1, 1], [EVM_ENFORCED_OPTIONS, EVM_ENFORCED_OPTIONS]],
     ]);
 
     return {
         contracts: [
-            { contract: ethContract },
-            { contract: tacContract },
+            { contract: bscContract },
+            { contract: arbitrumContract },
         ],
         connections,
     }

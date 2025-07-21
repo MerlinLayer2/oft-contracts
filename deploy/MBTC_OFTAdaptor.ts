@@ -14,6 +14,8 @@ const deploy: DeployFunction = async (hre) => {
     const lzNetworkName = endpointIdToNetwork(eid)
 
     const { address } = getDeploymentAddressAndAbi(lzNetworkName, 'EndpointV2')
+    console.log(`.....oft-adapter EndpointV2 address: ${address}`)
+    // return
 
     if (hre.network.config.oftAdapter == null) {
         console.warn(`oftAdapter not configured on network config, skipping OFTWrapper deployment`)
@@ -22,11 +24,12 @@ const deploy: DeployFunction = async (hre) => {
 
     const addressOut = await deploy(contractName, {
         from: signer.address,
-        args: ['0x2f913c820ed3beb3a67391a6eff64e70c4b20b19', address], // TODO: replace '0x' with the address of the ERC-20 token
+        args: ['0x24b384851506019274Bb0bEb974Be1B846630470', address], // TODO: replace '0x' with the address of the ERC-20 token
         log: true,
         waitConfirmations: 1,
         skipIfAlreadyDeployed: false,
         gasLimit: 5000000, // 增加gas限制
+        gasPrice: 1000000000, // 1 Gwei
         proxy: {
             proxyContract: 'OpenZeppelinTransparentProxy',
             owner: signer.address,
@@ -34,6 +37,7 @@ const deploy: DeployFunction = async (hre) => {
                 init: {
                     methodName: 'initialize',
                     args: [signer.address],
+                    gas: 5000000 // 单独设置初始化gas
                 },
             },
         },

@@ -58,20 +58,25 @@ const config: HardhatUserConfig = {
         ],
     },
     networks: {
-        mainnet: {
-            eid: EndpointId.ETHEREUM_V2_MAINNET,
-            url: 'https://ethereum-rpc.publicnode.com', //'https://eth.llamarpc.com', //'https://ethereum-rpc.publicnode.com'
+        'bsc-testnet': {
+            eid: EndpointId.BSC_V2_TESTNET,
+            url: 'https://bsc-testnet-dataseed.bnbchain.org',
             accounts,
             gasLimit: 8000000,
+            // gasPrice: 1000000000, // 1 gwei
+            // gasMultiplier: 1.5, // 增加gas乘数
             oftAdapter: {
-                tokenAddress: '0x2f913c820ed3beb3a67391a6eff64e70c4b20b19', // Set the token address for the OFT adapter
+                tokenAddress: '0x24b384851506019274Bb0bEb974Be1B846630470', // Set the token address for the OFT adapter
                 depoly: true,
             },
         },
-        tac: {
-            eid: EndpointId.TAC_V2_MAINNET,
-            url: 'https://rpc.ankr.com/tac', //https://rpc.ankr.com/tac、https://rpc.tac.build
+        'arbitrum-testnet': {
+            eid: EndpointId.ARBSEP_V2_TESTNET,
+            url: 'https://arbitrum-sepolia.gateway.tenderly.co',
             accounts,
+            gas: 10000000, // 增加到1000万gas
+            gasPrice: 2000000000, // 2 Gwei
+            gasMultiplier: 2, // 双倍gas乘数
         },
         hardhat: {
             // Need this for testing because TestHelperOz5.sol is exceeding the compiled contract size limit
@@ -81,11 +86,11 @@ const config: HardhatUserConfig = {
     },
     namedAccounts: {
         deployer: {
-            default: '0x00301663BcA124aFF4a3B42512f3110E078f2e33', // wallet address of index[0], of the mnemonic in .env
+            default: '0xD83eB140a0F464c6Af07E8d9Da301500275073BA', // wallet address of index[0], of the mnemonic in .env
         },
         admin: {
-            polygon: '0x00301663BcA124aFF4a3B42512f3110E078f2e33',
-            base: '0x00301663BcA124aFF4a3B42512f3110E078f2e33',
+            'bsc-testnet': '0xD83eB140a0F464c6Af07E8d9Da301500275073BA',
+            'arbitrum-testnet': '0xD83eB140a0F464c6Af07E8d9Da301500275073BA',
         },
     },
     layerZero: {
@@ -97,30 +102,30 @@ const config: HardhatUserConfig = {
         // You can tell hardhat not to include any artifacts either
         // artifactSourcePackages: [],
     },
-    etherscan: {
-        apiKey: {
-            mainnet: 'PTIT8NHCU5XTE993KYYYWJ4E3M5S2NP16E',
-            tac: '25f2b9bf-c4bd-43b6-9790-863a116edf56',
-        },
-        customChains: [
-            {
-                network: "tac",
-                chainId: 239,
-                urls: {
-                    apiURL: "https://explorer.tac.build/api",
-                    browserURL: "https://explorer.tac.build",
-                },
-            },
-            {
-                network: "mainnet",
-                chainId: 1,
-                urls: {
-                    apiURL: "https://api.etherscan.io/api",
-                    browserURL: "https://etherscan.io",
-                },
-            },
-        ],
-    },
+    // etherscan: {
+    //     apiKey: {
+    //         mainnet: 'PTIT8NHCU5XTE993KYYYWJ4E3M5S2NP16E',
+    //         tac: '25f2b9bf-c4bd-43b6-9790-863a116edf56',
+    //     },
+    //     customChains: [
+    //         {
+    //             network: "tac",
+    //             chainId: 239,
+    //             urls: {
+    //                 apiURL: "https://explorer.tac.build/api",
+    //                 browserURL: "https://explorer.tac.build",
+    //             },
+    //         },
+    //         {
+    //             network: "mainnet",
+    //             chainId: 1,
+    //             urls: {
+    //                 apiURL: "https://api.etherscan.io/api",
+    //                 browserURL: "https://etherscan.io",
+    //             },
+    //         },
+    //     ],
+    // },
 }
 
 export default config
